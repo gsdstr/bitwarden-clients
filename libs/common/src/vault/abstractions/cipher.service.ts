@@ -61,6 +61,9 @@ export abstract class CipherService {
   replace: (ciphers: { [id: string]: CipherData }) => Promise<any>;
   clear: (userId: string) => Promise<any>;
   moveManyWithServer: (ids: string[], folderId: string) => Promise<any>;
+  archive: (id: string) => Promise<any>;
+  archiveWithServer: (id: string) => Promise<any>;
+  // softArchiveWithServer: (id: string) => Promise<any>;
   delete: (id: string | string[]) => Promise<any>;
   deleteWithServer: (id: string) => Promise<any>;
   deleteManyWithServer: (ids: string[]) => Promise<any>;

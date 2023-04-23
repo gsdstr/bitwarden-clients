@@ -43,6 +43,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
   @Input() collectionIds: string[];
   @Input() organizationId: string = null;
   @Output() onSavedCipher = new EventEmitter<CipherView>();
+  @Output() onArchiveCipher = new EventEmitter<CipherView>();
   @Output() onDeletedCipher = new EventEmitter<CipherView>();
   @Output() onRestoredCipher = new EventEmitter<CipherView>();
   @Output() onCancelled = new EventEmitter<CipherView>();
@@ -387,6 +388,10 @@ export class AddEditComponent implements OnInit, OnDestroy {
 
   editCollections() {
     this.onEditCollections.emit(this.cipher);
+  }
+
+  archive() {
+    this.onArchiveCipher.emit(this.cipher);
   }
 
   async delete(): Promise<boolean> {

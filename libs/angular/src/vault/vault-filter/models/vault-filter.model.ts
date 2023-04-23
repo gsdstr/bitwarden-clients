@@ -41,6 +41,9 @@ export class VaultFilter {
       if (this.status === "favorites" && cipherPassesFilter) {
         cipherPassesFilter = cipher.favorite;
       }
+      if (this.status === "archive" && cipherPassesFilter) {
+        cipherPassesFilter = cipher.isArchived;
+      }
       if (this.status === "trash" && cipherPassesFilter) {
         cipherPassesFilter = cipher.isDeleted;
       }

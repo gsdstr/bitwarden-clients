@@ -41,6 +41,7 @@ export class CipherView implements View, InitializerMetadata {
   collectionIds: string[] = null;
   revisionDate: Date = null;
   creationDate: Date = null;
+  archiveDate: Date = null;
   deletedDate: Date = null;
   reprompt: CipherRepromptType = CipherRepromptType.None;
 
@@ -61,6 +62,7 @@ export class CipherView implements View, InitializerMetadata {
     this.collectionIds = c.collectionIds;
     this.revisionDate = c.revisionDate;
     this.creationDate = c.creationDate;
+    this.archiveDate = c.archiveDate;
     this.deletedDate = c.deletedDate;
     // Old locally stored ciphers might have reprompt == null. If so set it to None.
     this.reprompt = c.reprompt ?? CipherRepromptType.None;
@@ -119,6 +121,10 @@ export class CipherView implements View, InitializerMetadata {
     return this.login.passwordRevisionDate;
   }
 
+  get isArchived(): boolean {
+    return this.archiveDate != null;
+  }
+
   get isDeleted(): boolean {
     return this.deletedDate != null;
   }
@@ -144,6 +150,7 @@ export class CipherView implements View, InitializerMetadata {
   static fromJSON(obj: Partial<Jsonify<CipherView>>): CipherView {
     const view = new CipherView();
     const revisionDate = obj.revisionDate == null ? null : new Date(obj.revisionDate);
+    const archiveDate = obj.archiveDate == null ? null : new Date(obj.archiveDate);
     const deletedDate = obj.deletedDate == null ? null : new Date(obj.deletedDate);
     const attachments = obj.attachments?.map((a: any) => AttachmentView.fromJSON(a));
     const fields = obj.fields?.map((f: any) => FieldView.fromJSON(f));
@@ -151,6 +158,7 @@ export class CipherView implements View, InitializerMetadata {
 
     Object.assign(view, obj, {
       revisionDate: revisionDate,
+      archiveDate: archiveDate,
       deletedDate: deletedDate,
       attachments: attachments,
       fields: fields,

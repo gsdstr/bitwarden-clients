@@ -43,6 +43,7 @@ export class ViewComponent implements OnDestroy, OnInit {
   @Output() onEditCipher = new EventEmitter<CipherView>();
   @Output() onCloneCipher = new EventEmitter<CipherView>();
   @Output() onShareCipher = new EventEmitter<CipherView>();
+  @Output() onArchiveCipher = new EventEmitter<CipherView>();
   @Output() onDeletedCipher = new EventEmitter<CipherView>();
   @Output() onRestoredCipher = new EventEmitter<CipherView>();
 
@@ -163,6 +164,16 @@ export class ViewComponent implements OnDestroy, OnInit {
   async share() {
     if (await this.promptPassword()) {
       this.onShareCipher.emit(this.cipher);
+      return true;
+    }
+
+    return false;
+  }
+
+  async archive() {
+    if (await this.promptPassword()) {
+      await this.archiveCipher();
+      this.onArchiveCipher.emit(this.cipher);
       return true;
     }
 
@@ -410,6 +421,13 @@ export class ViewComponent implements OnDestroy, OnInit {
     }
 
     a.downloading = false;
+  }
+
+  protected archiveCipher() {
+    return this.cipherService.archiveWithServer(this.cipher.id);
+    // return this.cipher.isArchived
+    //   ? this.cipherService.archiveWithServer(this.cipher.id)
+    //   : this.cipherService.softArchiveWithServer(this.cipher.id);
   }
 
   protected deleteCipher() {

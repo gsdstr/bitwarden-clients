@@ -507,6 +507,10 @@
           <b class="font-weight-semibold">{{ "dateUpdated" | i18n }}:</b>
           {{ cipher.revisionDate | date : "medium" }}
         </div>
+        <div *ngIf="cipher.archiveDate">
+          <b class="font-weight-semibold">{{ "dateArchive" | i18n }}:</b>
+          {{ cipher.archiveDate | date : "medium" }}
+        </div>
         <div *ngIf="cipher.creationDate">
           <b class="font-weight-semibold">{{ "dateCreated" | i18n }}:</b>
           {{ cipher.creationDate | date : "medium" }}
@@ -556,6 +560,14 @@
     <i class="bwi bwi-files bwi-fw bwi-lg" aria-hidden="true"></i>
   </button>
   <div class="right" *ngIf="cipher.edit">
+    <button
+      type="button"
+      (click)="archive()"
+      class="warning"
+      appA11yTitle="{{ (cipher.isArchived ? 'archived' : 'archived') | i18n }}"
+    >
+      <i class="bwi bwi-box bwi-lg bwi-fw" aria-hidden="true"></i>
+    </button>
     <button
       type="button"
       (click)="delete()"

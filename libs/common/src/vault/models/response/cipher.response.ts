@@ -30,6 +30,7 @@ export class CipherResponse extends BaseResponse {
   passwordHistory: PasswordHistoryResponse[];
   collectionIds: string[];
   creationDate: string;
+  archiveDate: string;
   deletedDate: string;
   reprompt: CipherRepromptType;
 
@@ -52,6 +53,7 @@ export class CipherResponse extends BaseResponse {
     this.revisionDate = this.getResponseProperty("RevisionDate");
     this.collectionIds = this.getResponseProperty("CollectionIds");
     this.creationDate = this.getResponseProperty("CreationDate");
+    this.archiveDate = this.getResponseProperty("ArchiveDate");
     this.deletedDate = this.getResponseProperty("DeletedDate");
 
     const login = this.getResponseProperty("Login");

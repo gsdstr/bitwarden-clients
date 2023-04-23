@@ -11,6 +11,9 @@
   "favorites": {
     "message": "Favorites"
   },
+  "archive": {
+    "message": "Archive"
+  },
   "types": {
     "message": "Types"
   },

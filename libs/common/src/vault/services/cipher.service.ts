@@ -540,7 +540,7 @@ export class CipherService implements CipherServiceAbstraction {
       const request = new CipherRequest(cipher);
       response = await this.apiService.putCipher(cipher.id, request);
     } else {
-      const request = new CipherPartialRequest(cipher);
+      const request = CipherPartialRequest.fromCipher(cipher);
       response = await this.apiService.putPartialCipher(cipher.id, request);
     }
 
@@ -706,6 +706,39 @@ export class CipherService implements CipherServiceAbstraction {
 
     await this.clearCache();
     await this.stateService.setEncryptedCiphers(ciphers);
+  }
+
+  async archive(id: string | string[]): Promise<any> {
+    const ciphers = await this.stateService.getEncryptedCiphers();
+    if (ciphers == null) {
+      return;
+    }
+
+    const setArchiveDate = async (cipherId: string) => {
+      if (ciphers[cipherId] == null) {
+        return;
+      }
+      ciphers[cipherId].archiveDate = new Date().toISOString();
+      const cipher = ciphers[cipherId];
+      const request = CipherPartialRequest.fromCipherData(cipher);
+      const response = await this.apiService.putPartialCipher(cipher.id, request);
+
+      const data = new CipherData(response, cipher.collectionIds);
+      await this.upsert(data);
+    };
+
+    if (typeof id === "string") {
+      setArchiveDate(id);
+    } else {
+      (id as string[]).forEach(setArchiveDate);
+    }
+
+    await this.clearCache();
+    await this.stateService.setEncryptedCiphers(ciphers);
+  }
+
+  async archiveWithServer(id: string): Promise<any> {
+    await this.archive(id);
   }
 
   async delete(id: string | string[]): Promise<any> {
