@@ -48,9 +48,9 @@ import { PremiumComponent } from "../vault/app/accounts/premium.component";
 import { FolderAddEditComponent } from "../vault/app/vault/folder-add-edit.component";
 
 import { SettingsComponent } from "./accounts/settings.component";
+import { ExportComponent } from "./tools/export/export.component";
 import { GeneratorComponent } from "./tools/generator.component";
 import { PasswordGeneratorHistoryComponent } from "./tools/password-generator-history.component";
-import { ExportComponent } from "./vault/export.component";
 
 const BroadcasterSubscriptionId = "AppComponent";
 const IdleTimeout = 60000 * 10; // 10 minutes
@@ -180,13 +180,17 @@ export class AppComponent implements OnInit, OnDestroy {
           case "lockVault":
             await this.vaultTimeoutService.lock(message.userId);
             break;
-          case "lockAllVaults":
-            for (const userId in await firstValueFrom(this.stateService.accounts$)) {
-              if (userId != null) {
-                await this.vaultTimeoutService.lock(userId);
-              }
-            }
+          case "lockAllVaults": {
+            const currentUser = await this.stateService.getUserId();
+            const accounts = await firstValueFrom(this.stateService.accounts$);
+            await this.vaultTimeoutService.lock(currentUser);
+            Promise.all(
+              Object.keys(accounts)
+                .filter((u) => u !== currentUser)
+                .map((u) => this.vaultTimeoutService.lock(u))
+            );
             break;
+          }
           case "locked":
             this.modalService.closeAll();
             if (
