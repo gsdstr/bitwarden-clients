@@ -34,6 +34,8 @@ import { LoginUriView } from "@bitwarden/common/vault/models/view/login-uri.view
 import { LoginView } from "@bitwarden/common/vault/models/view/login.view";
 import { SecureNoteView } from "@bitwarden/common/vault/models/view/secure-note.view";
 
+import { DialogServiceAbstraction, SimpleDialogType } from "../../services/dialog";
+
 @Directive()
 export class AddEditComponent implements OnInit, OnDestroy {
   @Input() cloneMode = false;
@@ -99,7 +101,8 @@ export class AddEditComponent implements OnInit, OnDestroy {
     private logService: LogService,
     protected passwordRepromptService: PasswordRepromptService,
     private organizationService: OrganizationService,
-    protected sendApiService: SendApiService
+    protected sendApiService: SendApiService,
+    protected dialogService: DialogServiceAbstraction
   ) {
     this.typeOptions = [
       { name: i18nService.t("typeLogin"), value: CipherType.Login },
@@ -395,17 +398,14 @@ export class AddEditComponent implements OnInit, OnDestroy {
   }
 
   async delete(): Promise<boolean> {
-    const confirmed = await this.platformUtilsService.showDialog(
-      this.i18nService.t(
-        this.cipher.isDeleted ? "permanentlyDeleteItemConfirmation" : "deleteItemConfirmation"
-      ),
-      this.i18nService.t("deleteItem"),
-      this.i18nService.t("yes"),
-      this.i18nService.t("no"),
-      "warning",
-      false,
-      this.componentName != "" ? this.componentName + " .modal-content" : null
-    );
+    const confirmed = await this.dialogService.openSimpleDialog({
+      title: { key: "deleteItem" },
+      content: {
+        key: this.cipher.isDeleted ? "permanentlyDeleteItemConfirmation" : "deleteItemConfirmation",
+      },
+      type: SimpleDialogType.WARNING,
+    });
+
     if (!confirmed) {
       return false;
     }
@@ -434,13 +434,12 @@ export class AddEditComponent implements OnInit, OnDestroy {
       return false;
     }
 
-    const confirmed = await this.platformUtilsService.showDialog(
-      this.i18nService.t("restoreItemConfirmation"),
-      this.i18nService.t("restoreItem"),
-      this.i18nService.t("yes"),
-      this.i18nService.t("no"),
-      "warning"
-    );
+    const confirmed = await this.dialogService.openSimpleDialog({
+      title: { key: "restoreItem" },
+      content: { key: "restoreItemConfirmation" },
+      type: SimpleDialogType.WARNING,
+    });
+
     if (!confirmed) {
       return false;
     }
@@ -460,12 +459,12 @@ export class AddEditComponent implements OnInit, OnDestroy {
 
   async generateUsername(): Promise<boolean> {
     if (this.cipher.login?.username?.length) {
-      const confirmed = await this.platformUtilsService.showDialog(
-        this.i18nService.t("overwriteUsernameConfirmation"),
-        this.i18nService.t("overwriteUsername"),
-        this.i18nService.t("yes"),
-        this.i18nService.t("no")
-      );
+      const confirmed = await this.dialogService.openSimpleDialog({
+        title: { key: "overwriteUsername" },
+        content: { key: "overwriteUsernameConfirmation" },
+        type: SimpleDialogType.WARNING,
+      });
+
       if (!confirmed) {
         return false;
       }
@@ -477,12 +476,12 @@ export class AddEditComponent implements OnInit, OnDestroy {
 
   async generatePassword(): Promise<boolean> {
     if (this.cipher.login?.password?.length) {
-      const confirmed = await this.platformUtilsService.showDialog(
-        this.i18nService.t("overwritePasswordConfirmation"),
-        this.i18nService.t("overwritePassword"),
-        this.i18nService.t("yes"),
-        this.i18nService.t("no")
-      );
+      const confirmed = await this.dialogService.openSimpleDialog({
+        title: { key: "overwritePassword" },
+        content: { key: "overwritePasswordConfirmation" },
+        type: SimpleDialogType.WARNING,
+      });
+
       if (!confirmed) {
         return false;
       }

@@ -267,7 +267,7 @@
     "description": "Make the first letter of a work uppercase."
   },
   "includeNumber": {
-    "message": "Inclure le numéro"
+    "message": "Inclure un nombre"
   },
   "minNumbers": {
     "message": "Minimum de chiffres"
@@ -2202,5 +2202,8 @@
         "example": "CTRL+Shift+L"
       }
     }
+  },
+  "opensInANewWindow": {
+    "message": "S'ouvre dans une nouvelle fenêtre"
   }
 }
