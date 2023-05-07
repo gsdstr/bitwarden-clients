@@ -4,20 +4,20 @@ import { Cipher } from "../domain/cipher";
 export class CipherPartialRequest {
   folderId: string;
   favorite: boolean;
-  archiveDate: Date;
+  archivedDate: Date;
 
-  private constructor(folderId: string, favorite: boolean, archiveDate: Date) {
+  private constructor(folderId: string, favorite: boolean, archivedDate: Date) {
     this.folderId = folderId;
     this.favorite = favorite;
-    this.archiveDate = archiveDate;
+    this.archivedDate = archivedDate;
   }
 
   static fromCipher(cipher: Cipher) {
-    return new CipherPartialRequest(cipher.folderId, cipher.favorite, cipher.archiveDate);
+    return new CipherPartialRequest(cipher.folderId, cipher.favorite, cipher.archivedDate);
   }
 
   static fromCipherData(cipher: CipherData) {
-    const archiveDate = cipher.archiveDate != null ? new Date(cipher.archiveDate) : null;
-    return new CipherPartialRequest(cipher.folderId, cipher.favorite, archiveDate);
+    const archivedDate = cipher.archivedDate != null ? new Date(cipher.archivedDate) : null;
+    return new CipherPartialRequest(cipher.folderId, cipher.favorite, archivedDate);
   }
 }

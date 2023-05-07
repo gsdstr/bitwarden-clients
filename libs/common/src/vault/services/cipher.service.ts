@@ -714,11 +714,11 @@ export class CipherService implements CipherServiceAbstraction {
       return;
     }
 
-    const setArchiveDate = async (cipherId: string) => {
+    const setArchivedDate = async (cipherId: string) => {
       if (ciphers[cipherId] == null) {
         return;
       }
-      ciphers[cipherId].archiveDate = new Date().toISOString();
+      ciphers[cipherId].archivedDate = new Date().toISOString();
       const cipher = ciphers[cipherId];
       const request = CipherPartialRequest.fromCipherData(cipher);
       const response = await this.apiService.putPartialCipher(cipher.id, request);
@@ -728,9 +728,9 @@ export class CipherService implements CipherServiceAbstraction {
     };
 
     if (typeof id === "string") {
-      setArchiveDate(id);
+      setArchivedDate(id);
     } else {
-      (id as string[]).forEach(setArchiveDate);
+      (id as string[]).forEach(setArchivedDate);
     }
 
     await this.clearCache();

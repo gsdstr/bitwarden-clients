@@ -43,7 +43,7 @@ export class Cipher extends Domain implements Decryptable<CipherView> {
   passwordHistory: Password[];
   collectionIds: string[];
   creationDate: Date;
-  archiveDate: Date;
+  archivedDate: Date;
   deletedDate: Date;
   reprompt: CipherRepromptType;
 
@@ -79,7 +79,7 @@ export class Cipher extends Domain implements Decryptable<CipherView> {
     this.collectionIds = obj.collectionIds;
     this.localData = localData;
     this.creationDate = obj.creationDate != null ? new Date(obj.creationDate) : null;
-    this.archiveDate = obj.archiveDate != null ? new Date(obj.archiveDate) : null;
+    this.archivedDate = obj.archivedDate != null ? new Date(obj.archivedDate) : null;
     this.deletedDate = obj.deletedDate != null ? new Date(obj.deletedDate) : null;
     this.reprompt = obj.reprompt;
 
@@ -209,7 +209,7 @@ export class Cipher extends Domain implements Decryptable<CipherView> {
     c.type = this.type;
     c.collectionIds = this.collectionIds;
     c.creationDate = this.creationDate != null ? this.creationDate.toISOString() : null;
-    c.archiveDate = this.archiveDate != null ? this.archiveDate.toISOString() : null;
+    c.archivedDate = this.archivedDate != null ? this.archivedDate.toISOString() : null;
     c.deletedDate = this.deletedDate != null ? this.deletedDate.toISOString() : null;
     c.reprompt = this.reprompt;
 

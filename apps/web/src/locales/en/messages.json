@@ -3496,6 +3496,10 @@
     "message": "Updated",
     "description": "ex. Date this item was updated"
   },
+  "dateArchived": {
+    "message": "Archived",
+    "description": "ex. Date this item was archived"
+  },
   "dateCreated": {
     "message": "Created",
     "description": "ex. Date this item was created"

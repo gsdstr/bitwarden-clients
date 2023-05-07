@@ -505,9 +505,9 @@
           <b class="font-weight-semibold">{{ "dateUpdated" | i18n }}:</b>
           {{ cipher.revisionDate | date : "medium" }}
         </div>
-        <div *ngIf="cipher.archiveDate">
-          <b class="font-weight-semibold">{{ "dateArchive" | i18n }}:</b>
-          {{ cipher.archiveDate | date : "medium" }}
+        <div *ngIf="cipher.archivedDate">
+          <b class="font-weight-semibold">{{ "dateArchived" | i18n }}:</b>
+          {{ cipher.archivedDate | date : "medium" }}
         </div>
         <div *ngIf="cipher.creationDate">
           <b class="font-weight-semibold">{{ "dateCreated" | i18n }}:</b>
